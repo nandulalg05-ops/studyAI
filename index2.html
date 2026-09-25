@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>StudyAI - Personal Study Coach</title>
+
+    <style>
+        /* =========================
+   BASIC RESET
+========================= */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #09090d;
+            color: white;
+            min-height: 100vh;
+        }
+        /* =========================
+   HEADER
+========================= */
+        
+        header {
+            height: 70px;
+            border-bottom: 1px solid #292934;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 7%;
+            background: #0d0d12;
+        }
+        
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #a56bff;
+        }
+        
+        .logo span {
+            color: white;
+        }
+        
+        .header-text {
+            color: #aaa;
+            font-size: 14px;
+        }
+        /* =========================
+   MAIN CONTAINER
+========================= */
+        
+        .container {
+            width: 90%;
+            max-width: 1150px;
+            margin: 45px auto;
+        }
+        /* =========================
+   HERO
+========================= */
+        
+        .hero {
+            margin-bottom: 35px;
+        }
+        
+        .hero h1 {
+            font-size: 50px;
+            line-height: 1.1;
+            margin-bottom: 15px;
+        }
+        
+        .hero h1 span {
+            color: #a56bff;
+        }
+        
+        .hero p {
+            color: #aaa;
+            font-size: 18px;
+        }
+        /* =========================
+   GRID
+========================= */
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+        /* =========================
+   CARD
+========================= */
+        
+        .card {
+            background: #121218;
+            border: 1px solid #292934;
+            border-radius: 18px;
+            padding: 25px;
+        }
+        
+        .card h2 {
+            margin-bottom: 20px;
+        }
+        /* =========================
+   FORM
+========================= */
+        
+        label {
+            display: block;
+            color: #aaa;
+            margin-top: 15px;
+            margin-bottom: 7px;
+        }
+        
+        input,
+        select {
+            width: 100%;
+            padding: 13px;
+            background: #1b1b23;
+            border: 1px solid #383844;
+            border-radius: 10px;
+            color: white;
+            font-size: 15px;
+        }
+        
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #9658ff;
+        }
+        /* =========================
+   BUTTON
+========================= */
+        
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 18px;
+            border: none;
+            border-radius: 10px;
+            background: #8d4fff;
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        
+        button:hover {
+            background: #a56bff;
+            transform: translateY(-1px);
+        }
+        
+        button:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        /* =========================
+   INFORMATION BOX
+========================= */
+        
+        .info-box {
+            background: #18151f;
+            border-left: 4px solid #9a5cff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        
+        .info-box strong {
+            color: #bc8bff;
+        }
+        
+        .info-box p {
+            color: #aaa;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+        /* =========================
+   DASHBOARD
+========================= */
+        
+        .dashboard {
+            display: none;
+            margin-top: 25px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stat {
+            background: #191920;
+            border: 1px solid #2d2d38;
+            padding: 20px;
+            border-radius: 14px;
+        }
+        
+        .stat-number {
+            font-size: 30px;
+            font-weight: bold;
+            color: #a86cff;
+        }
+        
+        .stat-label {
+            color: #999;
+            margin-top: 5px;
+        }
+        /* =========================
+   PROGRESS
+========================= */
+        
+        .progress-container {
+            margin-top: 25px;
+        }
+        
+        .progress {
+            width: 100%;
+            height: 12px;
+            background: #292934;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient( 90deg, #7040ff, #c16cff);
+            transition: 0.5s;
+        }
+        /* =========================
+   STUDY PLAN
+========================= */
+        
+        .plan {
+            margin-top: 20px;
+        }
+        
+        .plan-item {
+            background: #18181f;
+            border: 1px solid #2c2c36;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .plan-item strong {
+            color: #b77cff;
+        }
+        
+        .plan-item p {
+            color: #aaa;
+            margin-top: 6px;
+        }
+        /* =========================
+   QUIZ
+========================= */
+        
+        .quiz {
+            display: none;
+            margin-top: 25px;
+        }
+        
+        .question-number {
+            color: #a76cff;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        
+        .question {
+            font-size: 22px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        
+        .answer-button {
+            background: #1b1b23;
+            border: 1px solid #373743;
+            text-align: left;
+            margin-top: 10px;
+        }
+        
+        .answer-button:hover {
+            background: #292332;
+        }
+        /* =========================
+   RESULT
+========================= */
+        
+        .result {
+            display: none;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .correct {
+            background: #10351f;
+            color: #6ff0a2;
+        }
+        
+        .wrong {
+            background: #3a1717;
+            color: #ff8585;
+        }
+        /* =========================
+   RECOMMENDATION
+========================= */
+        
+        .recommendation {
+            background: #191520;
+            border-left: 4px solid #9b5cff;
+            padding: 18px;
+            border-radius: 8px;
+            color: #ccc;
+            line-height: 1.6;
+        }
+        /* =========================
+   FINAL RESULT
+========================= */
+        
+        .final-result {
+            text-align: center;
+            padding: 25px;
+        }
+        
+        .final-score {
+            font-size: 50px;
+            font-weight: bold;
+            color: #ae72ff;
+            margin: 15px 0;
+        }
+        
+        .weak-topic {
+            margin-top: 15px;
+            color: #ffb86b;
+            font-size: 17px;
+        }
+        /* =========================
+   MOBILE
+========================= */
+        
+        @media (max-width: 750px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 38px;
+            }
+            .header-text {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+     HEADER
+========================= -->
+
+    <header>
+
+        <div class="logo">
+            Study<span>AI</span>
+        </div>
+
+        <div class="header-text">
+            Personal AI Study Coach
+        </div>
+
+    </header>
+
+
+    <div class="container">
+
+        <!-- =========================
+     HERO
+========================= -->
+
+        <section class="hero">
+
+            <h1>
+                Learn <span>smarter.</span><br> Not harder.
+            </h1>
+
+            <p>
+                A personalized learning assistant that adapts to your subject, study time and performance.
+            </p>
+
+        </section>
+
+
+        <!-- =========================
+     SETUP SECTION
+========================= -->
+
+        <div class="grid">
+
+            <div class="card">
+
+                <h2>🎓 Create Your Study Plan</h2>
+
+                <label>
+            Your Name
+        </label>
+
+                <input type="text" id="studentName" placeholder="Enter your name">
+
+
+                <label>
+            Select Subject
+        </label>
+
+                <select id="subject">
+
+            <option value="Mathematics">
+                Mathematics
+            </option>
+
+            <option value="Physics">
+                Physics
+            </option>
+
+            <option value="Chemistry">
+                Chemistry
+            </option>
+
+            <option value="Computer Science">
+                Computer Science
+            </option>
+
+            <option value="Biology">
+                Biology
+            </option>
+
+            <option value="English">
+                English
+            </option>
+
+        </select>
+
+
+                <label>
+            Exam Date
+        </label>
+
+                <input type="date" id="examDate">
+
+
+                <label>
+            Study Hours Per Day
+        </label>
+
+                <input type="number" id="hours" value="2" min="1" max="12">
+
+
+                <button onclick="createPlan()">
+            Generate My Study Plan →
+        </button>
+
+            </div>
+
+
+            <!-- =========================
+         HOW IT WORKS
+    ========================= -->
+
+            <div class="card">
+
+                <h2>🧠 How StudyAI Works</h2>
+
+                <div class="info-box">
+
+                    <strong>
+                01 — Select
+            </strong>
+
+                    <p>
+                        Choose your subject and provide your exam date.
+                    </p>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong>
+                02 — Diagnose
+            </strong>
+
+                    <p>
+                        Take a subject-specific diagnostic quiz.
+                    </p>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong>
+                03 — Analyze
+            </strong>
+
+                    <p>
+                        StudyAI analyzes your answers and identifies weak topics.
+                    </p>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <strong>
+                04 — Improve
+            </strong>
+
+                    <p>
+                        Get personalized recommendations for your next study session.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+     DASHBOARD
+========================= -->
+
+        <section class="dashboard" id="dashboard">
+
+            <div class="card">
+
+                <h2 id="welcome">
+                    Welcome!
+                </h2>
+
+
+                <div class="stats">
+
+                    <div class="stat">
+
+                        <div class="stat-number" id="days">
+                            0
+                        </div>
+
+                        <div class="stat-label">
+                            Days Remaining
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <div class="stat-number" id="score">
+                            0%
+                        </div>
+
+                        <div class="stat-label">
+                            Quiz Accuracy
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <div class="stat-number" id="hoursDisplay">
+                            0h
+                        </div>
+
+                        <div class="stat-label">
+                            Daily Study
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="progress-container">
+
+                    <h3>
+                        Learning Progress
+                    </h3>
+
+                    <div class="progress">
+
+                        <div class="progress-bar" id="progressBar"></div>
+
+                    </div>
+
+                    <p id="progressText" style="color:#aaa;margin-top:8px;">
+                        Start your diagnostic quiz.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+         PLAN + RECOMMENDATION
+    ========================= -->
+
+            <div class="grid" style="margin-top:20px;">
+
+                <div class="card">
+
+                    <h2>
+                        📅 Today's Study Plan
+                    </h2>
+
+                    <div class="plan" id="studyPlan"></div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h2>
+                        💡 AI Recommendation
+                    </h2>
+
+                    <div class="recommendation" id="recommendation">
+                        Take the diagnostic quiz to discover your weak areas.
+                    </div>
+
+
+                    <button onclick="startQuiz()">
+                Start Diagnostic Quiz →
+            </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+     QUIZ
+========================= -->
+
+        <section class="quiz" id="quiz">
+
+            <div class="card">
+
+                <h2>
+                    🧠 Adaptive Diagnostic Quiz
+                </h2>
+
+                <p style="color:#999;margin:10px 0 25px;" id="quizSubject"></p>
+
+
+                <div class="question-number" id="questionNumber"></div>
+
+
+                <div class="question" id="question"></div>
+
+
+                <div id="answers"></div>
+
+
+                <div class="result" id="result"></div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <script>
+        /* =====================================================
+           QUESTION DATABASE
+        ===================================================== */
+
+        const questionBank = {
+
+            /* ================= MATHEMATICS ================= */
+
+            Mathematics: [
+
+                {
+                    question: "What is 12 × 8?",
+                    answers: ["86", "96", "108", "112"],
+                    correct: 1,
+                    topic: "Arithmetic"
+                },
+
+                {
+                    question: "What is √144?",
+                    answers: ["10", "11", "12", "14"],
+                    correct: 2,
+                    topic: "Numbers"
+                },
+
+                {
+                    question: "If x + 5 = 12, what is x?",
+                    answers: ["5", "6", "7", "8"],
+                    correct: 2,
+                    topic: "Algebra"
+                },
+
+                {
+                    question: "What is 25% of 200?",
+                    answers: ["25", "40", "50", "75"],
+                    correct: 2,
+                    topic: "Percentage"
+                },
+
+                {
+                    question: "What is the derivative of x²?",
+                    answers: ["x", "2x", "x²", "2"],
+                    correct: 1,
+                    topic: "Calculus"
+                },
+
+                {
+                    question: "What is 15 × 6?",
+                    answers: ["80", "90", "100", "120"],
+                    correct: 1,
+                    topic: "Arithmetic"
+                },
+
+                {
+                    question: "What is 3² + 4²?",
+                    answers: ["12", "20", "25", "49"],
+                    correct: 2,
+                    topic: "Numbers"
+                }
+
+            ],
+
+
+            /* ================= PHYSICS ================= */
+
+            Physics: [
+
+                {
+                    question: "What is the SI unit of force?",
+                    answers: ["Joule", "Newton", "Watt", "Pascal"],
+                    correct: 1,
+                    topic: "Mechanics"
+                },
+
+                {
+                    question: "What is the approximate acceleration due to gravity?",
+                    answers: [
+                        "5.6 m/s²",
+                        "9.8 m/s²",
+                        "12.5 m/s²",
+                        "15 m/s²"
+                    ],
+                    correct: 1,
+                    topic: "Gravity"
+                },
+
+                {
+                    question: "Which quantity is measured in Watts?",
+                    answers: [
+                        "Energy",
+                        "Force",
+                        "Power",
+                        "Pressure"
+                    ],
+                    correct: 2,
+                    topic: "Energy"
+                },
+
+                {
+                    question: "What is the approximate speed of light?",
+                    answers: [
+                        "3 × 10⁸ m/s",
+                        "3 × 10⁶ m/s",
+                        "3 × 10⁵ m/s",
+                        "3 × 10³ m/s"
+                    ],
+                    correct: 0,
+                    topic: "Light"
+                },
+
+                {
+                    question: "Which instrument measures electric current?",
+                    answers: [
+                        "Voltmeter",
+                        "Ammeter",
+                        "Barometer",
+                        "Thermometer"
+                    ],
+                    correct: 1,
+                    topic: "Electricity"
+                },
+
+                {
+                    question: "What is the SI unit of energy?",
+                    answers: [
+                        "Newton",
+                        "Joule",
+                        "Watt",
+                        "Pascal"
+                    ],
+                    correct: 1,
+                    topic: "Energy"
+                },
+
+                {
+                    question: "Which force pulls objects toward Earth?",
+                    answers: [
+                        "Magnetic force",
+                        "Friction",
+                        "Gravity",
+                        "Electric force"
+                    ],
+                    correct: 2,
+                    topic: "Gravity"
+                }
+
+            ],
+
+
+            /* ================= CHEMISTRY ================= */
+
+            Chemistry: [
+
+                {
+                    question: "What is the chemical symbol for oxygen?",
+                    answers: ["Ox", "O", "C", "Og"],
+                    correct: 1,
+                    topic: "Elements"
+                },
+
+                {
+                    question: "What is the pH of pure water?",
+                    answers: ["5", "6", "7", "9"],
+                    correct: 2,
+                    topic: "Acids and Bases"
+                },
+
+                {
+                    question: "What is the chemical formula of water?",
+                    answers: ["CO₂", "H₂O", "O₂", "NaCl"],
+                    correct: 1,
+                    topic: "Compounds"
+                },
+
+                {
+                    question: "Which gas is most abundant in Earth's atmosphere?",
+                    answers: [
+                        "Oxygen",
+                        "Carbon dioxide",
+                        "Nitrogen",
+                        "Hydrogen"
+                    ],
+                    correct: 2,
+                    topic: "Atmosphere"
+                },
+
+                {
+                    question: "What is the atomic number of hydrogen?",
+                    answers: ["1", "2", "8", "10"],
+                    correct: 0,
+                    topic: "Atomic Structure"
+                },
+
+                {
+                    question: "What is the chemical symbol for sodium?",
+                    answers: ["So", "S", "Na", "N"],
+                    correct: 2,
+                    topic: "Elements"
+                },
+
+                {
+                    question: "Which substance is an acid?",
+                    answers: [
+                        "Hydrochloric acid",
+                        "Sodium hydroxide",
+                        "Ammonia",
+                        "Water"
+                    ],
+                    correct: 0,
+                    topic: "Acids and Bases"
+                }
+
+            ],
+
+
+            /* ================= COMPUTER SCIENCE ================= */
+
+            "Computer Science": [
+
+                {
+                    question: "What does CPU stand for?",
+                    answers: [
+                        "Central Processing Unit",
+                        "Computer Personal Unit",
+                        "Central Program Utility",
+                        "Computer Processing Utility"
+                    ],
+                    correct: 0,
+                    topic: "Computer Basics"
+                },
+
+                {
+                    question: "Which data structure follows FIFO?",
+                    answers: [
+                        "Stack",
+                        "Queue",
+                        "Tree",
+                        "Graph"
+                    ],
+                    correct: 1,
+                    topic: "Data Structures"
+                },
+
+                {
+                    question: "Which language is mainly used to structure web pages?",
+                    answers: [
+                        "Python",
+                        "HTML",
+                        "C++",
+                        "SQL"
+                    ],
+                    correct: 1,
+                    topic: "Web Development"
+                },
+
+                {
+                    question: "What does RAM stand for?",
+                    answers: [
+                        "Random Access Memory",
+                        "Read Access Memory",
+                        "Rapid Application Memory",
+                        "Random Application Module"
+                    ],
+                    correct: 0,
+                    topic: "Computer Basics"
+                },
+
+                {
+                    question: "Which symbol starts a JavaScript single-line comment?",
+                    answers: [
+                        "//",
+                        "##",
+                        "<!--",
+                        "**"
+                    ],
+                    correct: 0,
+                    topic: "JavaScript"
+                },
+
+                {
+                    question: "Which data structure follows LIFO?",
+                    answers: [
+                        "Queue",
+                        "Stack",
+                        "Array",
+                        "Graph"
+                    ],
+                    correct: 1,
+                    topic: "Data Structures"
+                },
+
+                {
+                    question: "What does HTML stand for?",
+                    answers: [
+                        "HyperText Markup Language",
+                        "HighText Machine Language",
+                        "Hyper Transfer Markup Language",
+                        "Home Tool Markup Language"
+                    ],
+                    correct: 0,
+                    topic: "Web Development"
+                }
+
+            ],
+
+
+            /* ================= BIOLOGY ================= */
+
+            Biology: [
+
+                {
+                    question: "What is the basic unit of life?",
+                    answers: [
+                        "Atom",
+                        "Cell",
+                        "Tissue",
+                        "Organ"
+                    ],
+                    correct: 1,
+                    topic: "Cell Biology"
+                },
+
+                {
+                    question: "Which organ pumps blood through the body?",
+                    answers: [
+                        "Lungs",
+                        "Brain",
+                        "Heart",
+                        "Kidney"
+                    ],
+                    correct: 2,
+                    topic: "Human Biology"
+                },
+
+                {
+                    question: "Which gas do plants absorb during photosynthesis?",
+                    answers: [
+                        "Oxygen",
+                        "Nitrogen",
+                        "Carbon dioxide",
+                        "Hydrogen"
+                    ],
+                    correct: 2,
+                    topic: "Photosynthesis"
+                },
+
+                {
+                    question: "Which part of the cell contains genetic material?",
+                    answers: [
+                        "Cell wall",
+                        "Nucleus",
+                        "Ribosome",
+                        "Cytoplasm"
+                    ],
+                    correct: 1,
+                    topic: "Cell Biology"
+                },
+
+                {
+                    question: "Which organ filters blood?",
+                    answers: [
+                        "Heart",
+                        "Liver",
+                        "Kidney",
+                        "Lung"
+                    ],
+                    correct: 2,
+                    topic: "Human Biology"
+                },
+
+                {
+                    question: "Which organ is mainly responsible for breathing?",
+                    answers: [
+                        "Heart",
+                        "Lung",
+                        "Kidney",
+                        "Stomach"
+                    ],
+                    correct: 1,
+                    topic: "Human Biology"
+                },
+
+                {
+                    question: "What is the green pigment in plants called?",
+                    answers: [
+                        "Hemoglobin",
+                        "Chlorophyll",
+                        "Melanin",
+                        "Keratin"
+                    ],
+                    correct: 1,
+                    topic: "Photosynthesis"
+                }
+
+            ],
+
+
+            /* ================= ENGLISH ================= */
+
+            English: [
+
+                {
+                    question: "Which word is a synonym for 'happy'?",
+                    answers: [
+                        "Sad",
+                        "Joyful",
+                        "Angry",
+                        "Tired"
+                    ],
+                    correct: 1,
+                    topic: "Vocabulary"
+                },
+
+                {
+                    question: "Which is the correct sentence?",
+                    answers: [
+                        "She go to school.",
+                        "She going school.",
+                        "She goes to school.",
+                        "She gone school."
+                    ],
+                    correct: 2,
+                    topic: "Grammar"
+                },
+
+                {
+                    question: "What is the opposite of 'ancient'?",
+                    answers: [
+                        "Old",
+                        "Modern",
+                        "Historic",
+                        "Past"
+                    ],
+                    correct: 1,
+                    topic: "Vocabulary"
+                },
+
+                {
+                    question: "Which word is a noun?",
+                    answers: [
+                        "Run",
+                        "Beautiful",
+                        "Teacher",
+                        "Quickly"
+                    ],
+                    correct: 2,
+                    topic: "Parts of Speech"
+                },
+
+                {
+                    question: "What is the past tense of 'go'?",
+                    answers: [
+                        "Goed",
+                        "Gone",
+                        "Went",
+                        "Going"
+                    ],
+                    correct: 2,
+                    topic: "Grammar"
+                },
+
+                {
+                    question: "Which word is an adjective?",
+                    answers: [
+                        "Beautiful",
+                        "Run",
+                        "Quickly",
+                        "Teacher"
+                    ],
+                    correct: 0,
+                    topic: "Parts of Speech"
+                },
+
+                {
+                    question: "Choose the correct article: ___ apple",
+                    answers: [
+                        "A",
+                        "An",
+                        "The",
+                        "No article"
+                    ],
+                    correct: 1,
+                    topic: "Grammar"
+                }
+
+            ]
+
+        };
+
+
+        /* =====================================================
+           VARIABLES
+        ===================================================== */
+
+        let quizQuestions = [];
+
+        let currentQuestion = 0;
+
+        let correctAnswers = 0;
+
+        let topicScores = {};
+
+
+        /* =====================================================
+           CREATE STUDY PLAN
+        ===================================================== */
+
+        function createPlan() {
+
+            const name =
+                document.getElementById("studentName").value.trim() ||
+                "Student";
+
+            const subject =
+                document.getElementById("subject").value;
+
+            const exam =
+                document.getElementById("examDate").value;
+
+            const hours =
+                Number(document.getElementById("hours").value);
+
+
+            if (!exam) {
+
+                alert("Please select your exam date.");
+
+                return;
+            }
+
+
+            const today = new Date();
+
+            const examDate = new Date(exam);
+
+            const difference =
+                examDate - today;
+
+            const daysRemaining =
+                Math.max(
+                    0,
+                    Math.ceil(
+                        difference /
+                        (1000 * 60 * 60 * 24)
+                    )
+                );
+
+
+            /* Show dashboard */
+
+            document.getElementById("dashboard").style.display =
+                "block";
+
+
+            document.getElementById("welcome").innerText =
+                `Welcome, ${name}! 👋`;
+
+
+            document.getElementById("days").innerText =
+                daysRemaining;
+
+
+            document.getElementById("hoursDisplay").innerText =
+                hours + "h";
+
+
+            document.getElementById("progressBar").style.width =
+                "5%";
+
+
+            document.getElementById("progressText").innerText =
+                `You are preparing for ${subject}. Take the diagnostic quiz to analyze your learning level.`;
+
+
+            /* Study Plan */
+
+            const studyPlan =
+                document.getElementById("studyPlan");
+
+
+            const conceptTime =
+                Math.max(
+                    1,
+                    Math.round(hours * 0.4 * 10) / 10
+                );
+
+            const practiceTime =
+                Math.max(
+                    0.5,
+                    Math.round(hours * 0.4 * 10) / 10
+                );
+
+            const revisionTime =
+                Math.max(
+                    0.5,
+                    Math.round(hours * 0.2 * 10) / 10
+                );
+
+
+            studyPlan.innerHTML = `
+
+        <div class="plan-item">
+
+            <strong>
+                📖 ${subject} Concepts
+            </strong>
+
+            <p>
+                Study important concepts —
+                ${conceptTime} hour
+            </p>
+
+        </div>
+
+
+        <div class="plan-item">
+
+            <strong>
+                ✍️ Practice
+            </strong>
+
+            <p>
+                Solve practice questions —
+                ${practiceTime} hour
+            </p>
+
+        </div>
+
+
+        <div class="plan-item">
+
+            <strong>
+                🔄 Revision
+            </strong>
+
+            <p>
+                Review mistakes and weak topics —
+                ${revisionTime} hour
+            </p>
+
+        </div>
+
+    `;
+
+
+            /* Save information */
+
+            localStorage.setItem(
+                "studyAI",
+                JSON.stringify({
+                    name: name,
+                    subject: subject,
+                    exam: exam,
+                    hours: hours
+                })
+            );
+
+
+            document.getElementById("dashboard")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+        }
+
+
+        /* =====================================================
+           START QUIZ
+        ===================================================== */
+
+        function startQuiz() {
+
+            currentQuestion = 0;
+
+            correctAnswers = 0;
+
+            topicScores = {};
+
+
+            const selectedSubject =
+                document.getElementById("subject").value;
+
+
+            /*
+                IMPORTANT:
+
+                Only questions belonging to the
+                selected subject are used.
+            */
+
+            const subjectQuestions =
+                questionBank[selectedSubject];
+
+
+            if (!subjectQuestions ||
+                subjectQuestions.length === 0) {
+
+                alert(
+                    "Questions are not available for this subject."
+                );
+
+                return;
+            }
+
+
+            /*
+                Shuffle questions so the order
+                changes every time.
+            */
+
+            quizQuestions = [...subjectQuestions]
+                .sort(
+                    () => Math.random() - 0.5
+                );
+
+
+            /*
+                Use maximum 5 questions.
+            */
+
+            quizQuestions =
+                quizQuestions.slice(0, 5);
+
+
+            document.getElementById("quiz").style.display =
+                "block";
+
+
+            document.getElementById("quizSubject").innerText =
+                `Subject: ${selectedSubject}`;
+
+
+            showQuestion();
+
+
+            document.getElementById("quiz")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+        }
+
+
+        /* =====================================================
+           SHOW QUESTION
+        ===================================================== */
+
+        function showQuestion() {
+
+            const q =
+                quizQuestions[currentQuestion];
+
+
+            document.getElementById("questionNumber").innerText =
+                `Question ${currentQuestion + 1} of ${quizQuestions.length}`;
+
+
+            document.getElementById("question").innerText =
+                q.question;
+
+
+            const answers =
+                document.getElementById("answers");
+
+
+            answers.innerHTML = "";
+
+
+            q.answers.forEach(
+                (answer, index) => {
+
+                    const button =
+                        document.createElement("button");
+
+
+                    button.className =
+                        "answer-button";
+
+
+                    button.innerText =
+                        answer;
+
+
+                    button.onclick =
+                        () => checkAnswer(index);
+
+
+                    answers.appendChild(button);
+
+                }
+            );
+
+
+            document.getElementById("result").style.display =
+                "none";
+        }
+
+
+        /* =====================================================
+           CHECK ANSWER
+        ===================================================== */
+
+        function checkAnswer(selectedAnswer) {
+
+            const q =
+                quizQuestions[currentQuestion];
+
+
+            const result =
+                document.getElementById("result");
+
+
+            result.style.display =
+                "block";
+
+
+            /*
+                Disable all answer buttons
+            */
+
+            document.querySelectorAll(
+                ".answer-button"
+            ).forEach(
+                button => button.disabled = true
+            );
+
+
+            /* Create topic counter */
+
+            if (!topicScores[q.topic]) {
+
+                topicScores[q.topic] = {
+                    correct: 0,
+                    total: 0
+                };
+
+            }
+
+
+            topicScores[q.topic].total++;
+
+
+            /* Correct answer */
+
+            if (
+                selectedAnswer === q.correct
+            ) {
+
+                correctAnswers++;
+
+                topicScores[q.topic].correct++;
+
+
+                result.className =
+                    "result correct";
+
+
+                result.innerText =
+                    "✓ Correct! Great job.";
+
+            }
+
+
+            /* Wrong answer */
+            else {
+
+                result.className =
+                    "result wrong";
+
+
+                result.innerText =
+                    `✗ Incorrect. Correct answer: ${q.answers[q.correct]}`;
+
+            }
+
+
+            /*
+                Move to next question
+            */
+
+            setTimeout(
+                () => {
+
+                    currentQuestion++;
+
+
+                    if (
+                        currentQuestion <
+                        quizQuestions.length
+                    ) {
+
+                        showQuestion();
+
+                    } else {
+
+                        finishQuiz();
+
+                    }
+
+                },
+                1000
+            );
+        }
+
+
+        /* =====================================================
+           FINISH QUIZ
+        ===================================================== */
+
+        function finishQuiz() {
+
+            const total =
+                quizQuestions.length;
+
+
+            const percentage =
+                Math.round(
+                    (correctAnswers / total) * 100
+                );
+
+
+            /* Update score */
+
+            document.getElementById("score").innerText =
+                percentage + "%";
+
+
+            /* Update progress */
+
+            document.getElementById("progressBar").style.width =
+                Math.max(
+                    5,
+                    percentage
+                ) + "%";
+
+
+            document.getElementById("progressText").innerText =
+                `Your current performance is ${percentage}%.`;
+
+
+            /*
+                Find weakest topic
+            */
+
+            let weakestTopic =
+                null;
+
+            let weakestAccuracy =
+                101;
+
+
+            for (
+                const topic in topicScores
+            ) {
+
+                const data =
+                    topicScores[topic];
+
+
+                const accuracy =
+                    (
+                        data.correct /
+                        data.total
+                    ) * 100;
+
+
+                if (
+                    accuracy <
+                    weakestAccuracy
+                ) {
+
+                    weakestAccuracy =
+                        accuracy;
+
+                    weakestTopic =
+                        topic;
+
+                }
+
+            }
+
+
+            /* Recommendation */
+
+            let recommendation = "";
+
+
+            if (percentage >= 80) {
+
+                recommendation =
+                    `Excellent work! You scored ${percentage}%. ` +
+                    `You can now move to advanced questions.`;
+
+            } else if (percentage >= 60) {
+
+                recommendation =
+                    `Good progress! You scored ${percentage}%. ` +
+                    `Review your mistakes and practice more questions.`;
+
+            } else {
+
+                recommendation =
+                    `You scored ${percentage}%. ` +
+                    `Focus on your basic concepts and practice regularly.`;
+
+            }
+
+
+            if (weakestTopic) {
+
+                recommendation +=
+                    ` Your weakest topic appears to be ${weakestTopic}.`;
+
+            }
+
+
+            document.getElementById("recommendation").innerText =
+                recommendation;
+
+
+            /*
+                Show final quiz result
+            */
+
+            document.getElementById("questionNumber").innerText =
+                "🎉 Diagnostic Complete";
+
+
+            document.getElementById("question").innerHTML =
+                `
+        <div class="final-result">
+
+            <h2>
+                Your Result
+            </h2>
+
+            <div class="final-score">
+                ${percentage}%
+            </div>
+
+            <p>
+                You answered
+                <strong>
+                    ${correctAnswers}
+                </strong>
+                out of
+                <strong>
+                    ${total}
+                </strong>
+                questions correctly.
+            </p>
+
+            ${
+                weakestTopic
+                ?
+                `
+                <div class="weak-topic">
+                    🎯 Weak Topic: ${weakestTopic}
+                </div>
+                `
+                :
+                ""
+            }
+
+        </div>
+        `;
+
+
+    document.getElementById("answers").innerHTML = `
+
+        <button
+            onclick="startQuiz()"
+        >
+            🔄 Take Quiz Again
+        </button>
+
+    `;
+
+
+    document.getElementById("result").style.display =
+        "none";
+
+
+    /* Save score */
+
+    localStorage.setItem(
+        "quizScore",
+        percentage
+    );
+}
+
+
+/* =====================================================
+   LOAD SAVED DATA
+===================================================== */
+
+window.onload =
+function () {
+
+    const saved =
+        JSON.parse(
+            localStorage.getItem("studyAI")
+        );
+
+
+    if (saved) {
+
+        document.getElementById("studentName").value =
+            saved.name || "";
+
+
+        document.getElementById("subject").value =
+            saved.subject || "Mathematics";
+
+
+        document.getElementById("examDate").value =
+            saved.exam || "";
+
+
+        document.getElementById("hours").value =
+            saved.hours || 2;
+
+    }
+
+};
+    </script>
+
+</body>
+
+</html>
